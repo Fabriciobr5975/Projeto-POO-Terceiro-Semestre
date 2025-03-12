@@ -5,7 +5,7 @@
 	<groupId>br.senac.sp</groupId>
 	<artifactId>projetopoo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -46,6 +46,23 @@
 			<version>1.18.34</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
+		<!--
+		https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.9.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.12</version>
+		</dependency>
+
+
 	</dependencies>
 </project>
