@@ -29,11 +29,11 @@ public final class ValidacaoTelaProduto extends JFrame {
 			throw new Exception("Coloque um dia válido");
 		}
 
-		if (mes > 30 || mes < 1) {
+		if (mes > 12 || mes < 1) {
 			throw new Exception("Coloque um mês válido");
 		}
 
-		if (ano < 1885) {
+		if (ano < 1885 || ano > LocalDate.now().getYear()) {
 			throw new Exception("Coloque um ano válido");
 		}
 

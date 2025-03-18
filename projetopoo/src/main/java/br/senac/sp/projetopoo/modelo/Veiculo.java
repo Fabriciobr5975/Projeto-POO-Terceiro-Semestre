@@ -66,7 +66,7 @@ public class Veiculo {
 
 	@Column(name = "imagem_veiculo", columnDefinition = "mediumblob", nullable = false)
 	private byte[] imagemVeiculo;
-
+	
 	/*
 	 * Caso seja necessário criar um atributo que não seja passado para o BD
 	 * 
