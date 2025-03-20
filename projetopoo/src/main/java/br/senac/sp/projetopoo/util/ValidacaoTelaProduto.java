@@ -48,7 +48,6 @@ public final class ValidacaoTelaProduto extends JFrame {
 
 			return (Double.parseDouble(preco));
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			return 0;
 		}
 	}

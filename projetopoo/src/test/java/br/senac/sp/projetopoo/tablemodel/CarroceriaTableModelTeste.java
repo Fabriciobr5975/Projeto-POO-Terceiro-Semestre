@@ -25,38 +25,37 @@ class CarroceriaTableModelTeste {
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		carroceria = new Carroceria();
-		
-		lista = new ArrayList<Carroceria>(Arrays.asList(carroceria));
-		carroceriaTableModel = new CarroceriaTableModel(lista);
-	}
-
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-		lista = null;
-		carroceria = null;
-		carroceriaTableModel = null;
-	}
-
-	@BeforeEach
-	void setUp() throws Exception {
 		carroceria.setCarroceria(CarroceriasVeiculo.HATCH_COMPACTO);
 		carroceria.setId(0);
 	}
 
+	@AfterAll
+	static void tearDownAfterClass() throws Exception {
+		carroceria = null;
+	}
+
+	@BeforeEach
+	void setUp() throws Exception {
+		lista = new ArrayList<Carroceria>(Arrays.asList(carroceria));
+		carroceriaTableModel = new CarroceriaTableModel(lista);
+	}
+
 	@AfterEach
 	void tearDown() throws Exception {
+		lista = null;
+		carroceriaTableModel = null;
 	}
 
 	@Test
-	void deveRetornarValorNull() {
+	void deveRetornarValorNullQuandoBuscarCarroceriaEmUmaPosicaoInvalida() {
 		assertNull(carroceriaTableModel.getValueAt(0, 2));
 	}
-	
+
 	@Test
-	void deveVerificarOMatchDosId() {
+	void deveVerificarOMatchDosIdDasCarrocerias() {
 		assertEquals(lista.get(0).getId(), carroceriaTableModel.getValueAt(0, 0));
 	}
-	
+
 	@Test
 	void deveVerificarOMatchDosTiposDeCarrocerias() {
 		assertEquals(lista.get(0).getCarroceria().getTipo(), carroceriaTableModel.getValueAt(0, 1));

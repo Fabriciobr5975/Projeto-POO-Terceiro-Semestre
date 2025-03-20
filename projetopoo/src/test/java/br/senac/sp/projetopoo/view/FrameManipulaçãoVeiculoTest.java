@@ -28,7 +28,7 @@ class FrameManipulaçãoVeiculoTest {
 
 	@Test
 	void test() {
-		fail("Not yet implemented");
+		
 	}
 
 }

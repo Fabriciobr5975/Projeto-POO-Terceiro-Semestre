@@ -1,0 +1,12 @@
+br\senac\sp\projetopoo\view\FrameListagemVeiculoTest.class
+br\senac\sp\projetopoo\view\FrameManipulaçãoVeiculoTest.class
+br\senac\sp\projetopoo\tablemodel\VeiculoTableModelTeste.class
+br\senac\sp\projetopoo\view\FrameIncialTest.class
+br\senac\sp\projetopoo\util\ValidaTelaProdutoTest.class
+br\senac\sp\projetopoo\view\FrameMarcaTest.class
+br\senac\sp\projetopoo\dao\VeiculoDaoHibernateTest.class
+br\senac\sp\projetopoo\dao\CarroceriaDaoHibernateTest.class
+br\senac\sp\projetopoo\view\FrameCarroceriaTest.class
+br\senac\sp\projetopoo\tablemodel\CarroceriaTableModelTeste.class
+br\senac\sp\projetopoo\dao\MarcaDaoHibernateTest.class
+br\senac\sp\projetopoo\tablemodel\MarcaTableModelTeste.class

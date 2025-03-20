@@ -6,7 +6,7 @@ import jakarta.persistence.Persistence;
 
 public class EMFactory {
 
-	private static final EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("senac"); 
+	private static EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("senac"); ;
 	private static EntityManager manager;
 	
 	public static EntityManager getEntityManager() {
