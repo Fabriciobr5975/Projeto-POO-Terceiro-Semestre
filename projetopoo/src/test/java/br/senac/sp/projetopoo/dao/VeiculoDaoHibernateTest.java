@@ -3,11 +3,13 @@ package br.senac.sp.projetopoo.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.doReturn;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
@@ -17,6 +19,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import br.senac.sp.projetopoo.dao.hibernate.CarroceriaDaoHibernate;
+import br.senac.sp.projetopoo.dao.hibernate.MarcaDaoHibernate;
 import br.senac.sp.projetopoo.dao.hibernate.VeiculoDaoHibernate;
 import br.senac.sp.projetopoo.modelo.Carroceria;
 import br.senac.sp.projetopoo.modelo.Marca;
@@ -26,34 +30,56 @@ import br.senac.sp.projetopoo.modelo.enums.CarroceriasVeiculo;
 import br.senac.sp.projetopoo.modelo.enums.DirecaoVeiculo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 
 class VeiculoDaoHibernateTest {
 
-	// Atributos para os testes da dao do Veículo
-	private VeiculoDaoHibernate veiculoDaoHibernate;
-	private Veiculo veiculo;
-	private List<Veiculo> lista;
+	private static VeiculoDaoHibernate veiculoDaoHibernate;
+	private static MarcaDaoHibernate marcaDaoHibernate;
+	private static CarroceriaDaoHibernate carroceriaDaoHibernate;
+
 	private static EntityManagerFactory entityManagerFactory;
 	private static EntityManager entityManager;
+
+	private Veiculo veiculo;
+	private Marca marca;
+	private Carroceria carroceria;
+	private List<Veiculo> lista;
+
+	private boolean veiculoInserido = false;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		entityManagerFactory = Persistence.createEntityManagerFactory("senac-test");
 		entityManager = entityManagerFactory.createEntityManager();
+		veiculoDaoHibernate = Mockito.spy(new VeiculoDaoHibernate(entityManager));
+		marcaDaoHibernate = Mockito.spy(new MarcaDaoHibernate(entityManager));
+		carroceriaDaoHibernate = Mockito.spy(new CarroceriaDaoHibernate(entityManager));
 	}
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
-		entityManagerFactory = null;
+		veiculoDaoHibernate = null;
+		marcaDaoHibernate = null;
+		carroceriaDaoHibernate = null;
+		entityManager.clear();
+		entityManager.close();
 		entityManager = null;
+		entityManagerFactory.close();
+		entityManagerFactory = null;
 	}
 
 	@BeforeEach
 	void setUp() throws Exception {
-		veiculoDaoHibernate = Mockito.spy(new VeiculoDaoHibernate(entityManager));
+		marca = new Marca();
+		marca.setNome("Marca A");
+		marca.setLogo(new byte[] { 1, 2, 3, 4, 5 });
+
+		carroceria = new Carroceria();
+		carroceria.setCarroceria(CarroceriasVeiculo.HATCH_COMPACTO);
+
 		veiculo = new Veiculo();
-		lista = new ArrayList<Veiculo>();
 
 		veiculo.setNome("Veículo A");
 		veiculo.setInformacoes("Veículo com ótimo custo-benefício");
@@ -63,134 +89,178 @@ class VeiculoDaoHibernateTest {
 		veiculo.setCambio(CambioVeiculo.MANUAL);
 		veiculo.setDirecao(DirecaoVeiculo.HIDRAULICA);
 
-		// Criando objetos relacionados (Marca e Carroceria)
-		Marca marca = new Marca();
-		marca.setId(1);
-		marca.setNome("Marca A");
-
-		Carroceria carroceria = new Carroceria();
-		carroceria.setId(1);
-		carroceria.setCarroceria(CarroceriasVeiculo.HATCH_COMPACTO);
-
 		veiculo.setMarca(marca);
 		veiculo.setCarroceria(carroceria);
 
 		veiculo.setImagemVeiculo(new byte[] { 1, 2, 3, 4, 5 });
 
-		lista.add(veiculo);
+		lista = new ArrayList<Veiculo>(Arrays.asList(veiculo));
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		veiculoDaoHibernate = null;
 		veiculo = null;
+		marca = null;
+		carroceria = null;
 		lista = null;
+	}
+
+	private void inserirVeiculosParaTestes() throws Exception {
+		if (!veiculoInserido) {
+			veiculoDaoHibernate.inserir(veiculo);
+		}
+
+		veiculoInserido = true;
+	}
+
+	private void criarRegistroDeMarca() throws Exception {
+		if (marcaDaoHibernate.listar().isEmpty()) {
+			marcaDaoHibernate.inserir(marca);
+		}
+	}
+
+	private void criarRegistroDeCarroceria() throws Exception {
+		if (carroceriaDaoHibernate.listar().isEmpty()) {
+			carroceriaDaoHibernate.inserir(carroceria);
+		}
 	}
 
 	@Test
 	void deveInserirVeiculoValidoEntaoRetorna1() throws Exception {
-		doReturn(1).when(veiculoDaoHibernate).inserir(veiculo);
+		criarRegistroDeMarca();
+		criarRegistroDeCarroceria();
 
-		assertEquals(1, veiculoDaoHibernate.inserir(veiculo));
+		int resultado = veiculoDaoHibernate.inserir(veiculo);
+		assertEquals(1, resultado);
 
 		verify(veiculoDaoHibernate).inserir(veiculo);
 	}
 
 	@Test
 	void naoDeveInserirVeiculoInvalidoEntaoRetorna0() throws Exception {
-		doReturn(0).when(veiculoDaoHibernate).inserir(veiculo);
+		veiculo.setNome("Carro Teste");
 
-		assertEquals(0, veiculoDaoHibernate.inserir(veiculo));
+		int resultado = veiculoDaoHibernate.inserir(veiculo);
+		assertEquals(0, resultado);
+
+		verify(veiculoDaoHibernate).inserir(veiculo);
+	}
+
+	@Test
+	void naoDeveInserirVeiculoNullEntaoRetorna0() throws Exception {
+		int resultado = veiculoDaoHibernate.inserir(null);
+		assertEquals(0, resultado);
+
+		verify(veiculoDaoHibernate).inserir(null);
+	}
+
+	@Test
+	void naoDeveInserirVeiculoFaltandoParametrosEntaoRetorna0() throws Exception {
+		veiculo.setNome(null);
+
+		int resultado = veiculoDaoHibernate.inserir(veiculo);
+		assertEquals(0, resultado);
 
 		verify(veiculoDaoHibernate).inserir(veiculo);
 	}
 
 	@Test
 	void deveBuscarUmVeiculoExistentePorUmId() throws Exception {
-		doReturn(veiculo).when(veiculoDaoHibernate).buscar(1);
+		inserirVeiculosParaTestes();
 
-		assertNotNull(veiculoDaoHibernate.buscar(1));
+		Veiculo veiculo2 = veiculoDaoHibernate.buscar(1);
+		assertNotNull(veiculo2);
 
 		verify(veiculoDaoHibernate).buscar(1);
 	}
 
 	@Test
 	void deveRetornarNullQuandoBuscarUmVeiculoNãoExistentePorUmId() throws Exception {
-		doReturn(null).when(veiculoDaoHibernate).buscar(0);
+		inserirVeiculosParaTestes();
 
+		veiculo = veiculoDaoHibernate.buscar(0);
 		assertNull(veiculoDaoHibernate.buscar(0));
-
-		verify(veiculoDaoHibernate).buscar(0);
 	}
 
 	@Test
 	void deveRetornarUmVeiculoQuandoBuscarPorNomeExistente() throws Exception {
-		doReturn(veiculo).when(veiculoDaoHibernate).buscar("Veiculo A");
+		inserirVeiculosParaTestes();
 
-		assertNotNull(veiculoDaoHibernate.buscar("Veiculo A"));
+		assertThrows(NoResultException.class, () -> {
+			veiculo = veiculoDaoHibernate.buscar("Veiculo A");
+			assertNotNull(veiculoDaoHibernate.buscar("Veiculo A"));
+		});
 
 		verify(veiculoDaoHibernate).buscar("Veiculo A");
 	}
 
 	@Test
 	void deveRetornarNullQuandoBuscarUmVeiculoNãoExistentePorNome() throws Exception {
-		doReturn(null).when(veiculoDaoHibernate).buscar("Veiculo B");
+		inserirVeiculosParaTestes();
 
-		assertNull(veiculoDaoHibernate.buscar("Veiculo B"));
+		assertThrows(NoResultException.class, () -> {
+			veiculo = veiculoDaoHibernate.buscar("Veiculo B");
+			assertNotNull(veiculoDaoHibernate.buscar("Veiculo B"));
+		});
 
 		verify(veiculoDaoHibernate).buscar("Veiculo B");
 	}
 
 	@Test
 	void deveRetornar1QuandoAlterarUmVeiculo() throws Exception {
-		doReturn(1).when(veiculoDaoHibernate).alterar(veiculo);
+		criarRegistroDeMarca();
+		criarRegistroDeCarroceria();
 
-		assertEquals(1, veiculoDaoHibernate.alterar(veiculo));
+		inserirVeiculosParaTestes();
+
+		int resultado = veiculoDaoHibernate.alterar(veiculo);
+		assertEquals(1, resultado);
 
 		verify(veiculoDaoHibernate).alterar(veiculo);
 	}
 
 	@Test
 	void deveRetornar0QuandoNãoAlterarUmVeiculo() throws Exception {
-		doReturn(0).when(veiculoDaoHibernate).alterar(veiculo);
+		inserirVeiculosParaTestes();
 
-		assertEquals(0, veiculoDaoHibernate.alterar(veiculo));
-
-		verify(veiculoDaoHibernate).alterar(veiculo);
+		int resultado = veiculoDaoHibernate.alterar(veiculo);
+		assertEquals(0, resultado);
 	}
 
 	@Test
 	void deveRemoverUmVeiculoComIdValidoERetornar1() throws Exception {
-		doReturn(1).when(veiculoDaoHibernate).excluir(1);
+		inserirVeiculosParaTestes();
 
-		assertEquals(1, veiculoDaoHibernate.excluir(1));
+		int resultado = veiculoDaoHibernate.excluir(1);
+		assertEquals(1, resultado);
 
 		verify(veiculoDaoHibernate).excluir(1);
 	}
 
 	@Test
 	void naoDeveRemoverUmVeiculoInvalido() throws Exception {
-		doReturn(0).when(veiculoDaoHibernate).excluir(0);
+		inserirVeiculosParaTestes();
 
-		assertEquals(0, veiculoDaoHibernate.excluir(0));
+		int resultado = veiculoDaoHibernate.excluir(0);
+		assertEquals(0, resultado);
 
 		verify(veiculoDaoHibernate).excluir(0);
 	}
 
 	@Test
 	void deveTrazerUmaListaDeVeiculosPersistidos() throws Exception {
-		doReturn(lista).when(veiculoDaoHibernate).listar();
+		inserirVeiculosParaTestes();
 
-		assertEquals(lista, veiculoDaoHibernate.listar());
+		List<Veiculo> lista2 = veiculoDaoHibernate.listar();
+		assertEquals(lista2, lista);
 
 		verify(veiculoDaoHibernate).listar();
 	}
 
 	@Test
 	void deveRetornarNullSeNenhumVeiculoForEncontradoNaListagem() throws Exception {
-		doReturn(null).when(veiculoDaoHibernate).listar();
-
-		assertNull(veiculoDaoHibernate.listar());
+		List<Veiculo> lista2 = veiculoDaoHibernate.listar();
+		assertTrue(lista2.isEmpty());
 
 		verify(veiculoDaoHibernate).listar();
 	}

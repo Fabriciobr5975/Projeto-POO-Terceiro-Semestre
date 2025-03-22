@@ -3,10 +3,12 @@ package br.senac.sp.projetopoo.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.doReturn;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
@@ -21,158 +23,198 @@ import br.senac.sp.projetopoo.modelo.Carroceria;
 import br.senac.sp.projetopoo.modelo.enums.CarroceriasVeiculo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 
 class CarroceriaDaoHibernateTest {
-	
-	private CarroceriaDaoHibernate carroceriaDaoHibernate;
-	private Carroceria carroceria;
-	private List<Carroceria> lista;
+
+	private static CarroceriaDaoHibernate carroceriaDaoHibernate;
 	private static EntityManagerFactory entityManagerFactory;
 	private static EntityManager entityManager;
-	
-	
+	private Carroceria carroceria;
+	private List<Carroceria> lista;
+
+	private boolean carroceriaInserida;
+
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		entityManagerFactory = Persistence.createEntityManagerFactory("senac-test");
 		entityManager = entityManagerFactory.createEntityManager();
+		carroceriaDaoHibernate = Mockito.spy(new CarroceriaDaoHibernate(entityManager));
 	}
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
-		entityManagerFactory = null;
+		carroceriaDaoHibernate = null;
+		entityManager.clear();
+		entityManager.close();
 		entityManager = null;
+		entityManagerFactory.close();
+		entityManagerFactory = null;
 	}
 
 	@BeforeEach
 	void setUp() throws Exception {
-		carroceriaDaoHibernate = Mockito.spy(new CarroceriaDaoHibernate(entityManager));
 		carroceria = new Carroceria();
 		carroceria.setCarroceria(CarroceriasVeiculo.HATCH_COMPACTO);
-		
-		lista = new ArrayList<Carroceria>();
-		lista.add(carroceria);
+
+		lista = new ArrayList<Carroceria>(Arrays.asList(carroceria));
+		carroceriaInserida = false;
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		carroceriaDaoHibernate = null;
 		carroceria = null;
 		lista = null;
+		carroceriaInserida = false;
 	}
-	
+
+	private void inserirCarroceriaParaTestes() throws Exception {
+		if (!carroceriaInserida) {
+			carroceriaDaoHibernate.inserir(carroceria);
+		}
+		carroceriaInserida = true;	
+	}
+
 	@Test
 	void deveInserirCarroceriaValidaEntaoRetorna1() throws Exception {
-		doReturn(1).when(carroceriaDaoHibernate).inserir(carroceria);
-
-		assertEquals(1, carroceriaDaoHibernate.inserir(carroceria));
+		carroceria.setCarroceria(CarroceriasVeiculo.SEDA_COMPACTO);
+		
+		int resultado = carroceriaDaoHibernate.inserir(carroceria);
+		assertEquals(1, resultado);
 
 		verify(carroceriaDaoHibernate).inserir(carroceria);
 	}
 
 	@Test
 	void naoDeveInserirCarroceriaInvalidaEntaoRetorna0() throws Exception {
-		doReturn(0).when(carroceriaDaoHibernate).inserir(carroceria);
+		carroceria.setCarroceria(CarroceriasVeiculo.SEDA_COMPACTO);
 
-		assertEquals(0, carroceriaDaoHibernate.inserir(carroceria));
+		int resultado = carroceriaDaoHibernate.inserir(carroceria);
+		assertEquals(0, resultado);
 
 		verify(carroceriaDaoHibernate).inserir(carroceria);
 	}
 
 	@Test
-	void deveBuscarUmaCarroceriaExistentePorUmId() throws Exception {
-		doReturn(carroceria).when(carroceriaDaoHibernate).buscar(1);
+	void naoDeveInserirCarroceriaNullEntaoRetorna0() throws Exception {
+		int resultado = carroceriaDaoHibernate.inserir(null);
+		assertEquals(0, resultado);
 
-		assertNotNull(carroceriaDaoHibernate.buscar(1));
+		verify(carroceriaDaoHibernate).inserir(null);
+	}
+
+	@Test
+	void deveBuscarUmaCarroceriaExistentePorUmId() throws Exception {
+		inserirCarroceriaParaTestes();
+
+		carroceria = carroceriaDaoHibernate.buscar(1);
+		assertNotNull(carroceria);
 
 		verify(carroceriaDaoHibernate).buscar(1);
 	}
-	
+
 	@Test
 	void deveBuscarUmaCarroceriaExistentePorUmTipoDeCarroceria() throws Exception {
-		doReturn(carroceria).when(carroceriaDaoHibernate).buscar(CarroceriasVeiculo.HATCH_COMPACTO);
-
-		assertNotNull(carroceriaDaoHibernate.buscar(CarroceriasVeiculo.HATCH_COMPACTO));
-
+		inserirCarroceriaParaTestes();
+		
+		carroceria = carroceriaDaoHibernate.buscar(CarroceriasVeiculo.HATCH_COMPACTO);
+		assertNotNull(carroceria);
+		
 		verify(carroceriaDaoHibernate).buscar(CarroceriasVeiculo.HATCH_COMPACTO);
 	}
-	
+
 	@Test
 	void deveRetornarNullQuandoBuscarUmaCarroceriaNãoExistentePorUmTipoDeCarroceria() throws Exception {
-		doReturn(null).when(carroceriaDaoHibernate).buscar(CarroceriasVeiculo.SEDA_COMPACTO);
+		inserirCarroceriaParaTestes();
 
-		assertNull(carroceriaDaoHibernate.buscar(CarroceriasVeiculo.SEDA_COMPACTO));
+		assertThrows(NoResultException.class, () -> {
+			carroceria = carroceriaDaoHibernate.buscar(CarroceriasVeiculo.HATCH_MEDIO);
+		});
 
-		verify(carroceriaDaoHibernate).buscar(CarroceriasVeiculo.SEDA_COMPACTO);
+		verify(carroceriaDaoHibernate).buscar(CarroceriasVeiculo.HATCH_MEDIO);
 	}
-	
+
 	@Test
 	void deveRetornarNullQuandoBuscarUmaCarroceriaPorUmTipoDeCarroceriaNull() throws Exception {
-		doReturn(null).when(carroceriaDaoHibernate).buscar(null);
-
-		assertNull(carroceriaDaoHibernate.buscar(null));
+		assertThrows(NoResultException.class, () -> {
+			carroceria = carroceriaDaoHibernate.buscar(null);
+		});
 
 		verify(carroceriaDaoHibernate).buscar(null);
 	}
 
 	@Test
 	void deveRetornarNullQuandoBuscarUmaCarroceriaNãoExistentePorUmId() throws Exception {
-		doReturn(null).when(carroceriaDaoHibernate).buscar(0);
+		inserirCarroceriaParaTestes();
 
-		assertNull(carroceriaDaoHibernate.buscar(0));
+		carroceria = carroceriaDaoHibernate.buscar(0);
+		assertNull(carroceria);
 
 		verify(carroceriaDaoHibernate).buscar(0);
 	}
 
 	@Test
 	void deveRetornar1QuandoAlterarUmaCarroceria() throws Exception {
-		doReturn(1).when(carroceriaDaoHibernate).alterar(carroceria);
+		inserirCarroceriaParaTestes();
+		carroceria.setCarroceria(CarroceriasVeiculo.AVENTUREIRO_COMPACTO);
 
-		assertEquals(1, carroceriaDaoHibernate.alterar(carroceria));
-
+		int resultado = carroceriaDaoHibernate.alterar(carroceria);
+		assertEquals(1, resultado);
+		
 		verify(carroceriaDaoHibernate).alterar(carroceria);
 	}
 
 	@Test
-	void deveRetornar0QuandoNãoAlterarUmaCarroceria() throws Exception {
-		doReturn(0).when(carroceriaDaoHibernate).alterar(carroceria);
+	void deveRetornar0QuandoNãoAlterarUmaCarroceriaPorFaltaDosParametros() throws Exception {
+		inserirCarroceriaParaTestes();
+		carroceria.setCarroceria(null);
 
-		assertEquals(0, carroceriaDaoHibernate.alterar(carroceria));
-
+		int resultado = carroceriaDaoHibernate.alterar(carroceria);
+		assertEquals(0, resultado);
+		
 		verify(carroceriaDaoHibernate).alterar(carroceria);
+	}
+	
+	@Test
+	void deveRetornar0QuandoNãoAlterarUmaCarroceria() throws Exception {
+		int resultado = carroceriaDaoHibernate.alterar(carroceria);
+		assertEquals(0, resultado);
 	}
 
 	@Test
 	void deveRemoverUmaCarroceriaComIdValidoERetornar1() throws Exception {
-		doReturn(1).when(carroceriaDaoHibernate).excluir(1);
+		inserirCarroceriaParaTestes();
 
-		assertEquals(1, carroceriaDaoHibernate.excluir(1));
-
+		int resultado = carroceriaDaoHibernate.excluir(1);
+		assertEquals(1, resultado);
+		
 		verify(carroceriaDaoHibernate).excluir(1);
 	}
 
 	@Test
 	void naoDeveRemoverUmaCarroceriaInvalida() throws Exception {
-		doReturn(0).when(carroceriaDaoHibernate).excluir(0);
-
-		assertEquals(0, carroceriaDaoHibernate.excluir(0));
+		assertThrows(IllegalArgumentException.class, () -> {
+			int resultado = carroceriaDaoHibernate.excluir(0);
+			assertEquals(0, resultado);
+		});
 
 		verify(carroceriaDaoHibernate).excluir(0);
 	}
 
 	@Test
 	void deveTrazerUmaListaDeCarroceriasPersistidas() throws Exception {
-		doReturn(lista).when(carroceriaDaoHibernate).listar();
+		inserirCarroceriaParaTestes();
+		List<Carroceria> lista2 = carroceriaDaoHibernate.listar();
 
-		assertEquals(lista, carroceriaDaoHibernate.listar());
-
-		verify(carroceriaDaoHibernate).listar();
+		assertEquals(lista2, lista);
 	}
 
 	@Test
 	void deveRetornarNullSeNenhumaCarroceriaForEncontradoNaListagem() throws Exception {
-		doReturn(null).when(carroceriaDaoHibernate).listar();
+		List<Carroceria> lista2 = carroceriaDaoHibernate.listar();
 
-		assertNull(carroceriaDaoHibernate.listar());
+		assertTrue(lista2.isEmpty());
+		verify(carroceriaDaoHibernate).listar();
 	}
 }

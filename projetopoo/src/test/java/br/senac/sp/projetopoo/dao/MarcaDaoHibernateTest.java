@@ -1,12 +1,12 @@
 package br.senac.sp.projetopoo.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.doReturn;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
@@ -24,127 +24,174 @@ import jakarta.persistence.Persistence;
 
 class MarcaDaoHibernateTest {
 
-	private MarcaDaoHibernate marcaDaoHibernate;
-	private Marca marca;
-	private List<Marca> lista;
+	private static MarcaDaoHibernate marcaDaoHibernate;
 	private static EntityManagerFactory entityManagerFactory;
 	private static EntityManager entityManager;
-	
+	private Marca marca;
+	private List<Marca> lista;
+
+	private boolean carroceriaInserida;
+
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		entityManagerFactory = Persistence.createEntityManagerFactory("senac-test");
 		entityManager = entityManagerFactory.createEntityManager();
+		marcaDaoHibernate = Mockito.spy(new MarcaDaoHibernate(entityManager));
 	}
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
-		entityManagerFactory = null;
+		marcaDaoHibernate = null;
+		entityManager.clear();
+		entityManager.close();
 		entityManager = null;
+		entityManagerFactory.close();
+		entityManagerFactory = null;
 	}
 
 	@BeforeEach
 	void setUp() throws Exception {
-		marcaDaoHibernate = Mockito.spy(new MarcaDaoHibernate(entityManager));
 		marca = new Marca();
 		marca.setNome("Marca A");
 		marca.setLogo(new byte[] { 1, 2, 3, 4, 5 });
-		
-		lista = new ArrayList<Marca>();
-		lista.add(marca);
+
+		lista = new ArrayList<Marca>(Arrays.asList(marca));
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		marcaDaoHibernate = null;
 		marca = null;
 		lista = null;
+		carroceriaInserida = false;
+	}
+
+	private void inserirMarcasParaTestes() throws Exception {
+		if (!carroceriaInserida) {
+			marcaDaoHibernate.inserir(marca);
+		}
+		carroceriaInserida = true;
 	}
 
 	@Test
 	void deveInserirMarcaValidaEntaoRetorna1() throws Exception {
-		doReturn(1).when(marcaDaoHibernate).inserir(marca);
+		marca.setNome("Marca A+");
+		marca.setLogo(new byte[] { 5, 4, 3, 2, 1 });
 
-		assertEquals(1, marcaDaoHibernate.inserir(marca));
+		int resultado = marcaDaoHibernate.inserir(marca);
+		assertEquals(1, resultado);
 
 		verify(marcaDaoHibernate).inserir(marca);
 	}
 
 	@Test
 	void naoDeveInserirMarcaInvalidaEntaoRetorna0() throws Exception {
-		doReturn(0).when(marcaDaoHibernate).inserir(marca);
+		marca.setNome("Marca A+");
+		marca.setLogo(new byte[] { 5, 4, 3, 2, 1 });
 
-		assertEquals(0, marcaDaoHibernate.inserir(marca));
+		int resultado = marcaDaoHibernate.inserir(marca);
+		assertEquals(0, resultado);
 
 		verify(marcaDaoHibernate).inserir(marca);
 	}
 
 	@Test
-	void deveBuscarUmaMarcaExistentePorUmId() throws Exception {
-		doReturn(marca).when(marcaDaoHibernate).buscar(1);
+	void naoDeveInserirMarcaNullEntaoRetorna0() throws Exception {
+		int resultado = marcaDaoHibernate.inserir(null);
 
-		assertNotNull(marcaDaoHibernate.buscar(1));
+		assertEquals(0, resultado);
+		verify(marcaDaoHibernate).inserir(null);
+	}
+
+	@Test
+	void deveBuscarUmaMarcaExistentePorUmId() throws Exception {
+		inserirMarcasParaTestes();
+		
+		Marca marca2 = marcaDaoHibernate.buscar(2);
+		assertEquals(marca, marca2);
 
 		verify(marcaDaoHibernate).buscar(1);
 	}
 
 	@Test
 	void deveRetornarNullQuandoBuscarUmaMarcaNãoExistentePorUmId() throws Exception {
-		doReturn(null).when(marcaDaoHibernate).buscar(0);
+		inserirMarcasParaTestes();
 
-		assertNull(marcaDaoHibernate.buscar(0));
-
-		verify(marcaDaoHibernate).buscar(0);
+		marca = marcaDaoHibernate.buscar(0);
+		assertNull(marca);
 	}
 
 	@Test
 	void deveRetornar1QuandoAlterarUmaMarca() throws Exception {
-		doReturn(1).when(marcaDaoHibernate).alterar(marca);
+		inserirMarcasParaTestes();
+		marca.setNome("Marca Teste");
 
-		assertEquals(1, marcaDaoHibernate.alterar(marca));
-
-		verify(marcaDaoHibernate).alterar(marca);
+		int resultado = marcaDaoHibernate.alterar(marca);
+		assertEquals(1, resultado);
 	}
 
 	@Test
-	void deveRetornar0QuandoNãoAlterarUmaMarca() throws Exception {
-		doReturn(0).when(marcaDaoHibernate).alterar(marca);
+	void deveRetornar0QuandoNãoAlterarUmaMarcaPorFaltaDoNome() throws Exception {
+		marca.setNome(null);
 
-		assertEquals(0, marcaDaoHibernate.alterar(marca));
+		int resultado = marcaDaoHibernate.alterar(marca);
+		assertEquals(0, resultado);
+
+		verify(marcaDaoHibernate).alterar(marca);
+	}
+	
+	@Test
+	void deveRetornar0QuandoNãoAlterarUmaMarcaPorFaltaDaImagem() throws Exception {
+		marca.setLogo(null);
+
+		int resultado = marcaDaoHibernate.alterar(marca);
+		assertEquals(0, resultado);
+
+		verify(marcaDaoHibernate).alterar(marca);
+	}
+	
+	@Test
+	void deveRetornar0QuandoNãoAlterarUmaMarca() throws Exception {
+		marca = null;
+
+		int resultado = marcaDaoHibernate.alterar(marca);
+		assertEquals(0, resultado);
 
 		verify(marcaDaoHibernate).alterar(marca);
 	}
 
 	@Test
 	void deveRemoverUmaMarcaComIdValidoERetornar1() throws Exception {
-		doReturn(1).when(marcaDaoHibernate).excluir(1);
+		inserirMarcasParaTestes();
 
-		assertEquals(1, marcaDaoHibernate.excluir(1));
+		int resultado = marcaDaoHibernate.excluir(1);
+		assertEquals(1, resultado);
 
 		verify(marcaDaoHibernate).excluir(1);
 	}
 
 	@Test
 	void naoDeveRemoverUmaMarcaInvalida() throws Exception {
-		doReturn(0).when(marcaDaoHibernate).excluir(0);
+		inserirMarcasParaTestes();
 
-		assertEquals(0, marcaDaoHibernate.excluir(0));
+		int resultado = marcaDaoHibernate.excluir(0);
+		assertEquals(0, resultado);
 
 		verify(marcaDaoHibernate).excluir(0);
 	}
 
 	@Test
 	void deveTrazerUmaListaDeMarcasPersistidas() throws Exception {
-		doReturn(lista).when(marcaDaoHibernate).listar();
+		inserirMarcasParaTestes();
+		List<Marca> lista2 = marcaDaoHibernate.listar();
 
-		assertEquals(lista, marcaDaoHibernate.listar());
-
-		verify(marcaDaoHibernate).listar();
+		assertEquals(lista2.get(0).getNome(), lista.get(0).getNome());
 	}
 
 	@Test
 	void deveRetornarNullSeNenhumaMarcaForEncontradoNaListagem() throws Exception {
-		doReturn(null).when(marcaDaoHibernate).listar();
+		List<Marca> lista2 = marcaDaoHibernate.listar();
 
-		assertNull(marcaDaoHibernate.listar());
+		assertTrue(lista2.isEmpty());
+		verify(marcaDaoHibernate).listar();
 	}
 }

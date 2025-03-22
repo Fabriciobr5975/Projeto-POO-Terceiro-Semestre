@@ -1,7 +1,9 @@
 package br.senac.sp.projetopoo.dao.hibernate;
 
 import java.util.List;
+
 import org.hibernate.HibernateException;
+
 import br.senac.sp.projetopoo.modelo.Carroceria;
 import br.senac.sp.projetopoo.modelo.enums.CarroceriasVeiculo;
 import jakarta.persistence.EntityManager;
