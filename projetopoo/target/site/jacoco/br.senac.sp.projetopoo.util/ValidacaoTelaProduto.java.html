@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValidacaoTelaProduto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">projetopoo</a> &gt; <a href="index.source.html" class="el_package">br.senac.sp.projetopoo.util</a> &gt; <span class="el_source">ValidacaoTelaProduto.java</span></div><h1>ValidacaoTelaProduto.java</h1><pre class="source lang-java linenums">package br.senac.sp.projetopoo.util;
+
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.time.LocalDate;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import br.senac.sp.projetopoo.modelo.Veiculo;
+
+@SuppressWarnings(&quot;serial&quot;)
+<span class="nc" id="L18">public final class ValidacaoTelaProduto extends JFrame {</span>
+
+	public static LocalDate pegarDataFabricacao(JFormattedTextField campo) throws Exception {
+<span class="fc" id="L21">		String data = campo.getText().replaceAll(&quot;/&quot;, &quot;&quot;);</span>
+		int dia, mes, ano;
+
+<span class="fc" id="L24">		dia = Integer.parseInt(data.substring(1, 3));</span>
+<span class="fc" id="L25">		mes = Integer.parseInt(data.substring(3, 5));</span>
+<span class="fc" id="L26">		ano = Integer.parseInt(data.substring(5, 9));</span>
+
+<span class="fc bfc" id="L28" title="All 4 branches covered.">		if (dia &gt; 30 || dia &lt; 1) {</span>
+<span class="fc" id="L29">			throw new Exception(&quot;Coloque um dia válido&quot;);</span>
+		}
+
+<span class="fc bfc" id="L32" title="All 4 branches covered.">		if (mes &gt; 12 || mes &lt; 1) {</span>
+<span class="fc" id="L33">			throw new Exception(&quot;Coloque um mês válido&quot;);</span>
+		}
+
+<span class="pc bpc" id="L36" title="1 of 4 branches missed.">		if (ano &lt; 1885 || ano &gt; LocalDate.now().getYear()) {</span>
+<span class="fc" id="L37">			throw new Exception(&quot;Coloque um ano válido&quot;);</span>
+		}
+
+<span class="nc" id="L40">		return LocalDate.of(ano, mes, dia);</span>
+	}
+
+	public static double pegarPreco(JFormattedTextField campo) throws Exception {
+<span class="fc" id="L44">		String preco = &quot;&quot;;</span>
+
+		try {
+<span class="fc" id="L47">			preco = campo.getText().replaceAll(&quot;[R$ .]&quot;, &quot;&quot;).replaceAll(&quot;[,]&quot;, &quot;.&quot;);</span>
+
+<span class="nc" id="L49">			return (Double.parseDouble(preco));</span>
+<span class="fc" id="L50">		} catch (Exception ex) {</span>
+<span class="fc" id="L51">			return 0;</span>
+		}
+	}
+
+	public static void colocarImagemNoCampo(JLabel label, Veiculo produto) throws Exception {
+<span class="fc" id="L56">		byte[] imagemByte = produto.getImagemVeiculo();</span>
+
+		try {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">			if (imagemByte != null) {</span>
+<span class="fc" id="L60">				BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imagemByte));</span>
+
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">				if (bufferedImage != null) {</span>
+<span class="nc" id="L63">					Image image = bufferedImage.getScaledInstance(label.getWidth(), label.getHeight(),</span>
+							Image.SCALE_SMOOTH);
+<span class="nc" id="L65">					ImageIcon icon = new ImageIcon(image);</span>
+<span class="nc" id="L66">					label.setIcon(icon);</span>
+
+<span class="nc" id="L68">				} else {</span>
+<span class="fc" id="L69">					throw new Exception(&quot;Formato de imagem não suportado&quot;);</span>
+				}
+
+<span class="nc" id="L72">			} else {</span>
+<span class="fc" id="L73">				throw new Exception(&quot;Imagem não encontrada&quot;);</span>
+
+			}
+<span class="nc" id="L76">		} catch (IOException e) {</span>
+<span class="nc" id="L77">			e.printStackTrace();</span>
+<span class="nc" id="L78">		}</span>
+<span class="nc" id="L79">	}</span>
+
+	public static void formatarDataFabricacaoBusca(JFormattedTextField campo, Veiculo produto) throws Exception {
+<span class="nc" id="L82">		String data = produto.getFabricacao().toString().replaceAll(&quot;[-]&quot;, &quot;&quot;);</span>
+
+<span class="nc" id="L84">		String dia = data.substring(6, 8);</span>
+<span class="nc" id="L85">		String mes = data.substring(4, 6);</span>
+<span class="nc" id="L86">		String ano = data.substring(0, 4);</span>
+
+<span class="nc" id="L88">		campo.setText(dia + mes + ano);</span>
+<span class="nc" id="L89">	}</span>
+
+	public static void formatarPrecoBusca(JFormattedTextField campo, Veiculo produto) throws Exception {
+<span class="nc" id="L92">		String preco = Double.toString(produto.getPreco());</span>
+<span class="nc" id="L93">		String precoFormatadoCampo = &quot;&quot;;</span>
+
+<span class="nc bnc" id="L95" title="All 2 branches missed.">		while (precoFormatadoCampo.length() != (11 - preco.length())) {</span>
+<span class="nc" id="L96">			precoFormatadoCampo += &quot;0&quot;;</span>
+		}
+
+<span class="nc" id="L99">		precoFormatadoCampo += preco;</span>
+
+<span class="nc" id="L101">		campo.setText(precoFormatadoCampo);</span>
+<span class="nc" id="L102">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

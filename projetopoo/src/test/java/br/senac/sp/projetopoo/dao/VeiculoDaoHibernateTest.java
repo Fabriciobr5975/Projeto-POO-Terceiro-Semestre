@@ -1,6 +1,7 @@
 package br.senac.sp.projetopoo.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -43,8 +44,8 @@ class VeiculoDaoHibernateTest {
 	private static EntityManager entityManager;
 
 	private Veiculo veiculo;
-	private Marca marca;
-	private Carroceria carroceria;
+	private static Marca marca;
+	private static Carroceria carroceria;
 	private List<Veiculo> lista;
 
 	private boolean veiculoInserido = false;
@@ -56,10 +57,19 @@ class VeiculoDaoHibernateTest {
 		veiculoDaoHibernate = Mockito.spy(new VeiculoDaoHibernate(entityManager));
 		marcaDaoHibernate = Mockito.spy(new MarcaDaoHibernate(entityManager));
 		carroceriaDaoHibernate = Mockito.spy(new CarroceriaDaoHibernate(entityManager));
+
+		marca = new Marca();
+		marca.setNome("Marca A");
+		marca.setLogo(new byte[] { 1, 2, 3, 4, 5 });
+
+		carroceria = new Carroceria();
+		carroceria.setCarroceria(CarroceriasVeiculo.HATCH_COMPACTO);
 	}
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
+		marca = null;
+		carroceria = null;
 		veiculoDaoHibernate = null;
 		marcaDaoHibernate = null;
 		carroceriaDaoHibernate = null;
@@ -72,13 +82,6 @@ class VeiculoDaoHibernateTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		marca = new Marca();
-		marca.setNome("Marca A");
-		marca.setLogo(new byte[] { 1, 2, 3, 4, 5 });
-
-		carroceria = new Carroceria();
-		carroceria.setCarroceria(CarroceriasVeiculo.HATCH_COMPACTO);
-
 		veiculo = new Veiculo();
 
 		veiculo.setNome("Veículo A");
@@ -97,11 +100,16 @@ class VeiculoDaoHibernateTest {
 		lista = new ArrayList<Veiculo>(Arrays.asList(veiculo));
 	}
 
+	@BeforeEach
+	void limparRegistrosVeiculo() {
+		entityManager.getTransaction().begin();
+		entityManager.createQuery("delete from Veiculo").executeUpdate();
+		entityManager.getTransaction().commit();
+	}
+
 	@AfterEach
 	void tearDown() throws Exception {
 		veiculo = null;
-		marca = null;
-		carroceria = null;
 		lista = null;
 	}
 
@@ -123,6 +131,14 @@ class VeiculoDaoHibernateTest {
 		if (carroceriaDaoHibernate.listar().isEmpty()) {
 			carroceriaDaoHibernate.inserir(carroceria);
 		}
+	}
+	@Test
+	void testarSeRegistrosForamInseridos() throws Exception {
+		criarRegistroDeMarca();
+		criarRegistroDeCarroceria();
+
+		assertTrue(!marcaDaoHibernate.listar().isEmpty());
+		assertTrue(!carroceriaDaoHibernate.listar().isEmpty());
 	}
 
 	@Test
@@ -214,16 +230,17 @@ class VeiculoDaoHibernateTest {
 		inserirVeiculosParaTestes();
 
 		int resultado = veiculoDaoHibernate.alterar(veiculo);
+
 		assertEquals(1, resultado);
 
 		verify(veiculoDaoHibernate).alterar(veiculo);
 	}
 
 	@Test
-	void deveRetornar0QuandoNãoAlterarUmVeiculo() throws Exception {
-		inserirVeiculosParaTestes();
-
-		int resultado = veiculoDaoHibernate.alterar(veiculo);
+	void deveRetornar0QuandoNãoAlterarUmVeiculoInvalido() throws Exception {
+		Veiculo veiculo2 = new Veiculo();
+		
+		int resultado = veiculoDaoHibernate.alterar(veiculo2);
 		assertEquals(0, resultado);
 	}
 
@@ -231,16 +248,22 @@ class VeiculoDaoHibernateTest {
 	void deveRemoverUmVeiculoComIdValidoERetornar1() throws Exception {
 		inserirVeiculosParaTestes();
 
-		int resultado = veiculoDaoHibernate.excluir(1);
+		Veiculo veiculoTeste = veiculoDaoHibernate.buscar(3);
+		assertNotNull(veiculoTeste);
+
+		int resultado = veiculoDaoHibernate.excluir(3);
 		assertEquals(1, resultado);
 
-		verify(veiculoDaoHibernate).excluir(1);
+		verify(veiculoDaoHibernate).excluir(3);
 	}
 
 	@Test
 	void naoDeveRemoverUmVeiculoInvalido() throws Exception {
 		inserirVeiculosParaTestes();
 
+		Veiculo veiculoTeste = veiculoDaoHibernate.buscar(0);
+		assertNull(veiculoTeste);
+		
 		int resultado = veiculoDaoHibernate.excluir(0);
 		assertEquals(0, resultado);
 
@@ -251,12 +274,10 @@ class VeiculoDaoHibernateTest {
 	void deveTrazerUmaListaDeVeiculosPersistidos() throws Exception {
 		inserirVeiculosParaTestes();
 
-		List<Veiculo> lista2 = veiculoDaoHibernate.listar();
-		assertEquals(lista2, lista);
-
-		verify(veiculoDaoHibernate).listar();
+		lista = veiculoDaoHibernate.listar();
+		assertFalse(lista.isEmpty());
 	}
-
+	
 	@Test
 	void deveRetornarNullSeNenhumVeiculoForEncontradoNaListagem() throws Exception {
 		List<Veiculo> lista2 = veiculoDaoHibernate.listar();

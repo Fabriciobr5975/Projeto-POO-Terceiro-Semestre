@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MarcaDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">projetopoo</a> &gt; <a href="index.source.html" class="el_package">br.senac.sp.projetopoo.dao.sql</a> &gt; <span class="el_source">MarcaDAO.java</span></div><h1>MarcaDAO.java</h1><pre class="source lang-java linenums">package br.senac.sp.projetopoo.dao.sql;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.senac.sp.projetopoo.dao.hibernate.InterfaceDao;
+import br.senac.sp.projetopoo.modelo.Marca;
+
+public class MarcaDAO implements InterfaceDao&lt;Marca&gt; {
+
+	private Connection conexao;
+	private String sql;
+	private PreparedStatement stmt;
+	
+<span class="nc" id="L19">	public MarcaDAO(Connection conexao) {</span>
+<span class="nc" id="L20">		this.conexao = conexao;</span>
+<span class="nc" id="L21">	}</span>
+	
+	public int inserir(Marca marca) throws SQLException {
+<span class="nc" id="L24">		sql = &quot;insert into marca(nome, logo) values (?,?)&quot;;</span>
+<span class="nc" id="L25">		stmt = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L26">		stmt.setString(1, marca.getNome());</span>
+<span class="nc" id="L27">		stmt.setBytes(2, marca.getLogo());</span>
+<span class="nc" id="L28">		stmt.execute();</span>
+<span class="nc" id="L29">		stmt.close();</span>
+		
+<span class="nc" id="L31">		return 0;</span>
+	}
+	
+	public List&lt;Marca&gt; listar() throws SQLException{
+<span class="nc" id="L35">		List&lt;Marca&gt; lista = new ArrayList&lt;Marca&gt;();</span>
+<span class="nc" id="L36">		sql = &quot;select * from marca&quot;;</span>
+<span class="nc" id="L37">		stmt = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L38">		ResultSet rs = stmt.executeQuery();</span>
+		
+<span class="nc bnc" id="L40" title="All 2 branches missed.">		while (rs.next()) {</span>
+<span class="nc" id="L41">			Marca m = new Marca();</span>
+<span class="nc" id="L42">			m.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="nc" id="L43">			m.setNome(rs.getString(&quot;nome&quot;));</span>
+<span class="nc" id="L44">			m.setLogo(rs.getBytes(&quot;logo&quot;));</span>
+<span class="nc" id="L45">			lista.add(m);</span>
+<span class="nc" id="L46">		}</span>
+		
+<span class="nc" id="L48">		rs.close();</span>
+<span class="nc" id="L49">		stmt.close();</span>
+<span class="nc" id="L50">		return lista;</span>
+	}
+	
+	public int alterar(Marca marca) throws SQLException {
+<span class="nc" id="L54">		sql = &quot;update marca set nome = ? , logo = ? where id = ?&quot;;</span>
+<span class="nc" id="L55">		stmt = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L56">		stmt.setString(1, marca.getNome());</span>
+<span class="nc" id="L57">		stmt.setBytes(2, marca.getLogo());</span>
+<span class="nc" id="L58">		stmt.setInt(3, marca.getId());</span>
+<span class="nc" id="L59">		stmt.execute();</span>
+<span class="nc" id="L60">		stmt.close();</span>
+		
+<span class="nc" id="L62">		return 0;</span>
+	}
+	
+	public int excluir(int id) throws SQLException {
+<span class="nc" id="L66">		sql = &quot;delete from marca where id = ?&quot;;</span>
+<span class="nc" id="L67">		stmt = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L68">		stmt.setInt(1, id);</span>
+<span class="nc" id="L69">		stmt.execute();</span>
+<span class="nc" id="L70">		stmt.close();</span>
+		
+<span class="nc" id="L72">		return 0;</span>
+	}
+
+	@Override
+	public Marca buscar(int id) throws SQLException {
+		// TODO Auto-generated method stub
+<span class="nc" id="L78">		return null;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

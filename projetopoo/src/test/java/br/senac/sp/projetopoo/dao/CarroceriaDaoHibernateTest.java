@@ -186,6 +186,9 @@ class CarroceriaDaoHibernateTest {
 	void deveRemoverUmaCarroceriaComIdValidoERetornar1() throws Exception {
 		inserirCarroceriaParaTestes();
 
+		carroceria = carroceriaDaoHibernate.buscar(1);
+		assertNotNull(carroceria);
+		
 		int resultado = carroceriaDaoHibernate.excluir(1);
 		assertEquals(1, resultado);
 		
@@ -195,6 +198,9 @@ class CarroceriaDaoHibernateTest {
 	@Test
 	void naoDeveRemoverUmaCarroceriaInvalida() throws Exception {
 		assertThrows(IllegalArgumentException.class, () -> {
+			carroceria = carroceriaDaoHibernate.buscar(0);
+			assertNull(carroceria);
+			
 			int resultado = carroceriaDaoHibernate.excluir(0);
 			assertEquals(0, resultado);
 		});

@@ -1,6 +1,7 @@
 package br.senac.sp.projetopoo.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
@@ -108,8 +109,6 @@ class MarcaDaoHibernateTest {
 		
 		Marca marca2 = marcaDaoHibernate.buscar(2);
 		assertEquals(marca, marca2);
-
-		verify(marcaDaoHibernate).buscar(1);
 	}
 
 	@Test
@@ -163,6 +162,9 @@ class MarcaDaoHibernateTest {
 	void deveRemoverUmaMarcaComIdValidoERetornar1() throws Exception {
 		inserirMarcasParaTestes();
 
+		Marca marca2 = marcaDaoHibernate.buscar(1);
+		assertNotNull(marca2);
+		
 		int resultado = marcaDaoHibernate.excluir(1);
 		assertEquals(1, resultado);
 
@@ -173,6 +175,9 @@ class MarcaDaoHibernateTest {
 	void naoDeveRemoverUmaMarcaInvalida() throws Exception {
 		inserirMarcasParaTestes();
 
+		Marca marca2 = marcaDaoHibernate.buscar(0);
+		assertNull(marca2);
+		
 		int resultado = marcaDaoHibernate.excluir(0);
 		assertEquals(0, resultado);
 

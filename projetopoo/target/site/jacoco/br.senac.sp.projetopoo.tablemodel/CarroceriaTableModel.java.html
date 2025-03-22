@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CarroceriaTableModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">projetopoo</a> &gt; <a href="index.source.html" class="el_package">br.senac.sp.projetopoo.tablemodel</a> &gt; <span class="el_source">CarroceriaTableModel.java</span></div><h1>CarroceriaTableModel.java</h1><pre class="source lang-java linenums">package br.senac.sp.projetopoo.tablemodel;
+
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
+import br.senac.sp.projetopoo.modelo.Carroceria;
+
+/**
+ * TableModel de Carroceria para a criação de tabelas com os atributos dos objetos
+ * Carroceria
+ * 
+ * @author Fabrício de Araújo Santana
+ * @author Marcus Vinícius Pereira Rocha
+ * @author Ruan Lopes Viana
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class CarroceriaTableModel extends AbstractTableModel {
+	// Atributos;
+	private List&lt;Carroceria&gt; lista;
+<span class="fc" id="L21">	private String[] cabecalho = { &quot;ID&quot;, &quot;Categoria&quot; };</span>
+
+	/**
+	 * Método construtor para inicializar a List através de uma List de marcas
+	 * 
+	 * @param lista - Recebe uma List com as Carrocerias
+	 */
+<span class="fc" id="L28">	public CarroceriaTableModel(List&lt;Carroceria&gt; lista) {</span>
+<span class="fc" id="L29">		this.lista = lista;</span>
+<span class="fc" id="L30">	}</span>
+	
+	/**
+	 * Método para setar a lista
+	 * 
+	 * @param lista - Recebe a nova lista
+	 */
+	public void setLista(List&lt;Carroceria&gt; lista) {
+<span class="nc" id="L38">		this.lista = lista;</span>
+<span class="nc" id="L39">	}</span>
+
+
+	/**
+	 * Método para contar a quantidade de linhas da linha da tabela
+	 */
+	@Override
+	public int getRowCount() {
+<span class="nc" id="L47">		return lista.size();</span>
+	}
+
+	/**
+	 * Método para contar a quantidade de colunas da tabela
+	 */
+	@Override
+	public int getColumnCount() {
+<span class="nc" id="L55">		return this.cabecalho.length;</span>
+	}
+
+	/**
+	 * Método adicionar os elementos dentro da tabela
+	 * 
+	 * @param rowIndex    - Recebe a posição da linha
+	 * @param columnIndex - Recebe a posição da coluna
+	 */
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+<span class="fc" id="L66">		Carroceria categoria = lista.get(rowIndex);</span>
+
+<span class="fc bfc" id="L68" title="All 3 branches covered.">		switch (columnIndex) {</span>
+		case 0:
+<span class="fc" id="L70">			return categoria.getId();</span>
+		case 1:
+<span class="fc" id="L72">			return categoria.getCarroceria().getTipo();</span>
+		default:
+<span class="fc" id="L74">			return null;</span>
+		}
+	}
+	
+	/**
+	 * Método para pegar o cabeçalho da tabela
+	 * 
+	 * @param column - Recebe as colunas da tabela
+	 */
+	@Override
+	public String getColumnName(int column) {
+<span class="nc" id="L85">		return cabecalho[column];</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

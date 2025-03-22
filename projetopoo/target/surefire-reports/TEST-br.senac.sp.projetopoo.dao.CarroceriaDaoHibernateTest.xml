@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.072" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="7.419" tests="15" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="BR"/>
     <property name="sun.boot.library.path" value="C:\Users\arauj\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.8.v20230831-1047\jre\bin"/>
-    <property name="sun.java.command" value="C:\Users\arauj\AppData\Local\Temp\surefire237562366595845712\surefirebooter-20250319172734538_3.jar C:\Users\arauj\AppData\Local\Temp\surefire237562366595845712 2025-03-19T17-27-34_229-jvmRun1 surefire-20250319172734538_1tmp surefire_0-20250319172734538_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\arauj\AppData\Local\Temp\surefire13907604493718870638\surefirebooter-20250322130350103_3.jar C:\Users\arauj\AppData\Local\Temp\surefire13907604493718870638 2025-03-22T13-03-49_799-jvmRun1 surefire-20250322130350103_1tmp surefire_0-20250322130350103_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\arauj\eclipse-workspace\projetopoo\target\test-classes;C:\Users\arauj\eclipse-workspace\projetopoo\target\classes;C:\Users\arauj\.m2\repository\mysql\mysql-connector-java\5.1.49\mysql-connector-java-5.1.49.jar;C:\Users\arauj\.m2\repository\org\hibernate\orm\hibernate-core\6.4.10.Final\hibernate-core-6.4.10.Final.jar;C:\Users\arauj\.m2\repository\jakarta\persistence\jakarta.persistence-api\3.1.0\jakarta.persistence-api-3.1.0.jar;C:\Users\arauj\.m2\repository\jakarta\transaction\jakarta.transaction-api\2.0.1\jakarta.transaction-api-2.0.1.jar;C:\Users\arauj\.m2\repository\org\jboss\logging\jboss-logging\3.5.0.Final\jboss-logging-3.5.0.Final.jar;C:\Users\arauj\.m2\repository\org\hibernate\common\hibernate-commons-annotations\6.0.6.Final\hibernate-commons-annotations-6.0.6.Final.jar;C:\Users\arauj\.m2\repository\io\smallrye\jandex\3.1.2\jandex-3.1.2.jar;C:\Users\arauj\.m2\repository\com\fasterxml\classmate\1.5.1\classmate-1.5.1.jar;C:\Users\arauj\.m2\repository\net\bytebuddy\byte-buddy\1.14.11\byte-buddy-1.14.11.jar;C:\Users\arauj\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\4.0.0\jakarta.xml.bind-api-4.0.0.jar;C:\Users\arauj\.m2\repository\jakarta\activation\jakarta.activation-api\2.1.0\jakarta.activation-api-2.1.0.jar;C:\Users\arauj\.m2\repository\org\glassfish\jaxb\jaxb-runtime\4.0.2\jaxb-runtime-4.0.2.jar;C:\Users\arauj\.m2\repository\org\glassfish\jaxb\jaxb-core\4.0.2\jaxb-core-4.0.2.jar;C:\Users\arauj\.m2\repository\org\eclipse\angus\angus-activation\2.0.0\angus-activation-2.0.0.jar;C:\Users\arauj\.m2\repository\org\glassfish\jaxb\txw2\4.0.2\txw2-4.0.2.jar;C:\Users\arauj\.m2\repository\com\sun\istack\istack-commons-runtime\4.1.1\istack-commons-runtime-4.1.1.jar;C:\Users\arauj\.m2\repository\jakarta\inject\jakarta.inject-api\2.0.1\jakarta.inject-api-2.0.1.jar;C:\Users\arauj\.m2\repository\org\antlr\antlr4-runtime\4.13.0\antlr4-runtime-4.13.0.jar;C:\Users\arauj\.m2\repository\org\projectlombok\lombok\1.18.34\lombok-1.18.34.jar;C:\Users\arauj\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.2\junit-jupiter-api-5.9.2.jar;C:\Users\arauj\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\arauj\.m2\repository\org\junit\platform\junit-platform-commons\1.9.2\junit-platform-commons-1.9.2.jar;C:\Users\arauj\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\arauj\.m2\repository\org\jacoco\jacoco-maven-plugin\0.8.12\jacoco-maven-plugin-0.8.12.jar;C:\Users\arauj\.m2\repository\org\codehaus\plexus\plexus-utils\3.0.24\plexus-utils-3.0.24.jar;C:\Users\arauj\.m2\repository\org\apache\maven\shared\file-management\3.1.0\file-management-3.1.0.jar;C:\Users\arauj\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\arauj\.m2\repository\commons-io\commons-io\2.11.0\commons-io-2.11.0.jar;C:\Users\arauj\.m2\repository\org\apache\maven\reporting\maven-reporting-api\3.0\maven-reporting-api-3.0.jar;C:\Users\arauj\.m2\repository\org\apache\maven\doxia\doxia-sink-api\1.0\doxia-sink-api-1.0.jar;C:\Users\arauj\.m2\repository\org\jacoco\org.jacoco.agent\0.8.12\org.jacoco.agent-0.8.12-runtime.jar;C:\Users\arauj\.m2\repository\org\jacoco\org.jacoco.core\0.8.12\org.jacoco.core-0.8.12.jar;C:\Users\arauj\.m2\repository\org\ow2\asm\asm\9.7\asm-9.7.jar;C:\Users\arauj\.m2\repository\org\ow2\asm\asm-commons\9.7\asm-commons-9.7.jar;C:\Users\arauj\.m2\repository\org\ow2\asm\asm-tree\9.7\asm-tree-9.7.jar;C:\Users\arauj\.m2\repository\org\jacoco\org.jacoco.report\0.8.12\org.jacoco.report-0.8.12.jar;C:\Users\arauj\.m2\repository\org\mockito\mockito-core\4.11.0\mockito-core-4.11.0.jar;C:\Users\arauj\.m2\repository\net\bytebuddy\byte-buddy-agent\1.12.19\byte-buddy-agent-1.12.19.jar;C:\Users\arauj\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\arauj\.m2\repository\org\hamcrest\hamcrest\3.0\hamcrest-3.0.jar;C:\Users\arauj\.m2\repository\com\h2database\h2\2.3.232\h2-2.3.232.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\arauj\AppData\Local\Temp\surefire237562366595845712\surefirebooter-20250319172734538_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\arauj\AppData\Local\Temp\surefire13907604493718870638\surefirebooter-20250322130350103_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.8.1+1"/>
@@ -58,5 +58,168 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="test" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.02"/>
+  <testcase name="deveRetornarNullQuandoBuscarUmaCarroceriaPorUmTipoDeCarroceriaNull" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.693">
+    <system-out><![CDATA[Hibernate: drop table if exists Cambio cascade 
+Hibernate: drop table if exists Carroceria cascade 
+Hibernate: drop table if exists Direcao cascade 
+Hibernate: drop table if exists Marca cascade 
+Hibernate: drop table if exists Veiculo cascade 
+Hibernate: drop sequence if exists Cambio_SEQ
+Hibernate: drop sequence if exists Direcao_SEQ
+Hibernate: create sequence Cambio_SEQ start with 1 increment by 50
+Hibernate: create sequence Direcao_SEQ start with 1 increment by 50
+Hibernate: create table Cambio (id bigint not null, nome_cambio varchar(20) not null unique check (nome_cambio in ('MANUAL','AUTOMATICO','AUTOMATIZADO','CVT')), primary key (id))
+Hibernate: create table Carroceria (id integer generated by default as identity, tipo varchar(30) not null unique check (tipo in ('AVENTUREIRO_COMPACTO','HATCH_SUBCOMPACTO','HATCH_COMPACTO','HATCH_MEDIO','SEDA_COMPACTO','SEDA_MEDIO','SEDA_GRANDE','FAMILIAR_COMPACTO','FAMILIAR_MEDIO','FAMILIA_GRANDE','PICAPE_COMPACTO','PICAPE_MEDIO','PICAPE_GRANDE','SUV_COMPACTO','SUV_MEDIO','SUV_GRANDE','ESPORTIVO_COMPACTO','ESPORIVO_MEDIO','ESPORTIVO_GRANDE','CONVERSIVEL_COMPACTO','CONVERSIVEL_MEDIO','CONVERSIVEL_GRANDE','VAN_MEDIA','VAN_GRANDE','JIPE','FURGAO_COMPACTO','FURGAO_MEDIO','CAMINHAO_URBANO')), primary key (id))
+Hibernate: create table Direcao (id bigint not null, nome_direcao varchar(100) not null unique check (nome_direcao in ('MECANICA','HIDRAULICA','ELETRICA','ELETRO_HIDRAULICA')), primary key (id))
+Hibernate: create table Marca (id integer generated by default as identity, logo mediumblob not null, nome varchar(100) not null unique, primary key (id))
+Hibernate: create table Veiculo (fabricacao date not null, fk_categoria integer not null, fk_marca integer not null, id integer generated by default as identity, importacao boolean not null, preco float(53) not null, cambio varchar(100) not null check (cambio in ('MANUAL','AUTOMATICO','AUTOMATIZADO','CVT')), direcao varchar(100) not null check (direcao in ('MECANICA','HIDRAULICA','ELETRICA','ELETRO_HIDRAULICA')), imagem_veiculo mediumblob not null, informacoes TEXT, nome varchar(100) not null, primary key (id))
+Hibernate: alter table if exists Veiculo add constraint fk_categoria_constraint foreign key (fk_categoria) references Carroceria
+Hibernate: alter table if exists Veiculo add constraint fk_marca_constraint foreign key (fk_marca) references Marca
+Hibernate: select c1_0.id,c1_0.tipo from Carroceria c1_0 where c1_0.tipo=? order by c1_0.tipo
+]]></system-out>
+    <system-err><![CDATA[mar. 22, 2025 1:03:52 PM org.hibernate.jpa.internal.util.LogHelper logPersistenceUnitInformation
+INFO: HHH000204: Processing PersistenceUnitInfo [name: senac-test]
+mar. 22, 2025 1:03:52 PM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate ORM core version 6.4.10.Final
+mar. 22, 2025 1:03:52 PM org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl lambda$normalizeConnectionAccessUserAndPass$6
+WARN: HHH90000021: Encountered deprecated setting [javax.persistence.jdbc.user], use [jakarta.persistence.jdbc.user] instead
+mar. 22, 2025 1:03:52 PM org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl lambda$normalizeConnectionAccessUserAndPass$12
+WARN: HHH90000021: Encountered deprecated setting [javax.persistence.jdbc.password], use [jakarta.persistence.jdbc.password] instead
+mar. 22, 2025 1:03:52 PM org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl normalizeDataAccess
+WARN: HHH90000021: Encountered deprecated setting [javax.persistence.jdbc.url], use [jakarta.persistence.jdbc.url] instead
+mar. 22, 2025 1:03:52 PM org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl normalizeDataAccess
+WARN: HHH90000021: Encountered deprecated setting [javax.persistence.jdbc.driver], use [jakarta.persistence.jdbc.driver] instead
+mar. 22, 2025 1:03:53 PM org.hibernate.cache.internal.RegionFactoryInitiator initiateService
+INFO: HHH000026: Second-level cache disabled
+mar. 22, 2025 1:03:53 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using built-in connection pool (not intended for production use)
+mar. 22, 2025 1:03:53 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: Loaded JDBC driver class: org.h2.Driver
+mar. 22, 2025 1:03:53 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001012: Connecting with JDBC URL [jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1]
+mar. 22, 2025 1:03:53 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=sa}
+mar. 22, 2025 1:03:53 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+mar. 22, 2025 1:03:53 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH10001115: Connection pool size: 20 (min=1)
+mar. 22, 2025 1:03:55 PM org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl constructDialect
+WARN: HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+mar. 22, 2025 1:03:57 PM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+mar. 22, 2025 1:03:58 PM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@5ee4aad3] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+mar. 22, 2025 1:03:58 PM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4b6c5fa2] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+]]></system-err>
+  </testcase>
+  <testcase name="deveRetornarNullSeNenhumaCarroceriaForEncontradoNaListagem" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.023">
+    <system-out><![CDATA[Hibernate: select c1_0.id,c1_0.tipo from Carroceria c1_0 order by c1_0.id
+]]></system-out>
+  </testcase>
+  <testcase name="deveTrazerUmaListaDeCarroceriasPersistidas" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.103">
+    <system-out><![CDATA[Hibernate: insert into Carroceria (tipo,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.tipo from Carroceria c1_0 order by c1_0.id
+]]></system-out>
+  </testcase>
+  <testcase name="deveBuscarUmaCarroceriaExistentePorUmTipoDeCarroceria" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.037">
+    <system-out><![CDATA[Hibernate: insert into Carroceria (tipo,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.tipo from Carroceria c1_0 where c1_0.tipo=? order by c1_0.tipo
+]]></system-out>
+    <system-err><![CDATA[mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+WARN: SQL Error: 23505, SQLState: 23505
+mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+ERROR: Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_5 ON PUBLIC.CARROCERIA(TIPO NULLS FIRST) VALUES ( /* 1 */ 'HATCH_COMPACTO' )"; SQL statement:
+insert into Carroceria (tipo,id) values (?,default) [23505-232]
+]]></system-err>
+  </testcase>
+  <testcase name="deveInserirCarroceriaValidaEntaoRetorna1" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.01">
+    <system-out><![CDATA[Hibernate: insert into Carroceria (tipo,id) values (?,default)
+]]></system-out>
+  </testcase>
+  <testcase name="deveRetornar1QuandoAlterarUmaCarroceria" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.027">
+    <system-out><![CDATA[Hibernate: insert into Carroceria (tipo,id) values (?,default)
+Hibernate: insert into Carroceria (tipo,id) values (?,default)
+]]></system-out>
+    <system-err><![CDATA[mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+WARN: SQL Error: 23505, SQLState: 23505
+mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+ERROR: Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_5 ON PUBLIC.CARROCERIA(TIPO NULLS FIRST) VALUES ( /* 1 */ 'HATCH_COMPACTO' )"; SQL statement:
+insert into Carroceria (tipo,id) values (?,default) [23505-232]
+]]></system-err>
+  </testcase>
+  <testcase name="deveRetornarNullQuandoBuscarUmaCarroceriaNãoExistentePorUmId" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.022">
+    <system-out><![CDATA[Hibernate: insert into Carroceria (tipo,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.tipo from Carroceria c1_0 where c1_0.id=?
+]]></system-out>
+    <system-err><![CDATA[mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+WARN: SQL Error: 23505, SQLState: 23505
+mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+ERROR: Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_5 ON PUBLIC.CARROCERIA(TIPO NULLS FIRST) VALUES ( /* 1 */ 'HATCH_COMPACTO' )"; SQL statement:
+insert into Carroceria (tipo,id) values (?,default) [23505-232]
+]]></system-err>
+  </testcase>
+  <testcase name="deveBuscarUmaCarroceriaExistentePorUmId" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.009">
+    <system-out><![CDATA[Hibernate: insert into Carroceria (tipo,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.tipo from Carroceria c1_0 where c1_0.id=?
+]]></system-out>
+    <system-err><![CDATA[mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+WARN: SQL Error: 23505, SQLState: 23505
+mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+ERROR: Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_5 ON PUBLIC.CARROCERIA(TIPO NULLS FIRST) VALUES ( /* 1 */ 'HATCH_COMPACTO' )"; SQL statement:
+insert into Carroceria (tipo,id) values (?,default) [23505-232]
+]]></system-err>
+  </testcase>
+  <testcase name="deveRetornar0QuandoNãoAlterarUmaCarroceriaPorFaltaDosParametros" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.011">
+    <system-out><![CDATA[Hibernate: insert into Carroceria (tipo,id) values (?,default)
+]]></system-out>
+    <system-err><![CDATA[mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+WARN: SQL Error: 23505, SQLState: 23505
+mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+ERROR: Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_5 ON PUBLIC.CARROCERIA(TIPO NULLS FIRST) VALUES ( /* 1 */ 'HATCH_COMPACTO' )"; SQL statement:
+insert into Carroceria (tipo,id) values (?,default) [23505-232]
+]]></system-err>
+  </testcase>
+  <testcase name="naoDeveInserirCarroceriaInvalidaEntaoRetorna0" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.012">
+    <system-out><![CDATA[Hibernate: insert into Carroceria (tipo,id) values (?,default)
+]]></system-out>
+    <system-err><![CDATA[mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+WARN: SQL Error: 23505, SQLState: 23505
+mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+ERROR: Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_5 ON PUBLIC.CARROCERIA(TIPO NULLS FIRST) VALUES ( /* 3 */ 'SEDA_COMPACTO' )"; SQL statement:
+insert into Carroceria (tipo,id) values (?,default) [23505-232]
+]]></system-err>
+  </testcase>
+  <testcase name="deveRetornarNullQuandoBuscarUmaCarroceriaNãoExistentePorUmTipoDeCarroceria" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.006">
+    <system-out><![CDATA[Hibernate: insert into Carroceria (tipo,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.tipo from Carroceria c1_0 where c1_0.tipo=? order by c1_0.tipo
+]]></system-out>
+    <system-err><![CDATA[mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+WARN: SQL Error: 23505, SQLState: 23505
+mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+ERROR: Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_5 ON PUBLIC.CARROCERIA(TIPO NULLS FIRST) VALUES ( /* 1 */ 'HATCH_COMPACTO' )"; SQL statement:
+insert into Carroceria (tipo,id) values (?,default) [23505-232]
+]]></system-err>
+  </testcase>
+  <testcase name="deveRetornar0QuandoNãoAlterarUmaCarroceria" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.004">
+    <system-out><![CDATA[Hibernate: insert into Carroceria (tipo,id) values (?,default)
+]]></system-out>
+    <system-err><![CDATA[mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+WARN: SQL Error: 23505, SQLState: 23505
+mar. 22, 2025 1:03:59 PM org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+ERROR: Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_5 ON PUBLIC.CARROCERIA(TIPO NULLS FIRST) VALUES ( /* 1 */ 'HATCH_COMPACTO' )"; SQL statement:
+insert into Carroceria (tipo,id) values (?,default) [23505-232]
+]]></system-err>
+  </testcase>
+  <testcase name="naoDeveRemoverUmaCarroceriaInvalida" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.019">
+    <system-out><![CDATA[Hibernate: select c1_0.id,c1_0.tipo from Carroceria c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.tipo from Carroceria c1_0 where c1_0.id=?
+]]></system-out>
+  </testcase>
+  <testcase name="deveRemoverUmaCarroceriaComIdValidoERetornar1" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.017">
+    <system-out><![CDATA[Hibernate: select c1_0.id,c1_0.tipo from Carroceria c1_0 where c1_0.id=?
+Hibernate: delete from Carroceria where id=?
+]]></system-out>
+  </testcase>
+  <testcase name="naoDeveInserirCarroceriaNullEntaoRetorna0" classname="br.senac.sp.projetopoo.dao.CarroceriaDaoHibernateTest" time="0.006"/>
 </testsuite>

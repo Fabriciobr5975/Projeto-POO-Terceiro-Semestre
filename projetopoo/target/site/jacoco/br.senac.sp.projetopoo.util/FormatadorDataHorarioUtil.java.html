@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FormatadorDataHorarioUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">projetopoo</a> &gt; <a href="index.source.html" class="el_package">br.senac.sp.projetopoo.util</a> &gt; <span class="el_source">FormatadorDataHorarioUtil.java</span></div><h1>FormatadorDataHorarioUtil.java</h1><pre class="source lang-java linenums">package br.senac.sp.projetopoo.util;
+
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+/**
+ * Classe utilitária para o tratameto da formatação de datas e dados referentes
+ * a horários (horas, minutos e segundos). Essa classe deverá ser usada para
+ * formatar a saida dos elementos de data no padrão (Dia: Mês: Ano) e na parte
+ * dos horários no padrão (Hora: Minuto: Segundo).
+ * 
+ * @author Fabrício de Araújo Santana
+ * @author Marcus Vinícius Pereira Rocha
+ * @author Ruan Lopes Viana
+ * 
+ */
+<span class="nc" id="L20">public class FormatadorDataHorarioUtil {</span>
+	
+	/**
+	 * Método que pega a hora atual do sistema e formata no padrão (HH:mm:ss) que
+	 * significa (hora:minutos:segundos)
+	 * 
+	 * @return Retorna uma String contendo o horário atual do sistema formatado
+	 */
+	public static String lerHoraAtualDoSistema() {
+<span class="nc" id="L29">		DateFormat dateFormat = new SimpleDateFormat(&quot;HH:mm:ss&quot;);</span>
+<span class="nc" id="L30">		Date date = new Date(0);</span>
+<span class="nc" id="L31">		return dateFormat.format(date);</span>
+	}
+
+	/**
+	 * Método que pegar a data atual do sistema e a formata no padrõa (dd/MM/yyyy)
+	 * que significa (dia:mês:ano)
+	 * 
+	 * @return Retorna uma String contendo a data atual do sistema formatada
+	 */
+	public static String lerDataAtualDoSistema() {
+<span class="nc" id="L41">		DateFormat dateFormat = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;);</span>
+<span class="nc" id="L42">		Date date = new Date(0);</span>
+<span class="nc" id="L43">		return dateFormat.format(date);</span>
+	}
+
+	/**
+	 * Método para formatar uma data passada por parâmetro, afim de melhorar a
+	 * visualização da data, quando a mesma for impressa. A data é formatada no
+	 * padrão (dd:MM:yyy) que significa (dia:mês:ano)
+	 * 
+	 * @param data - Recebe uma data que será formatada
+	 * 
+	 * @return Retorna uma String contendo a data passada por parâmetro formatada
+	 * 
+	 * @throws Exception - Caso haja alguma exceção
+	 */
+	public static String formatarData(LocalDate data) throws Exception {
+<span class="fc" id="L58">		String dataFormatada = data.format(DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy&quot;)); </span>
+<span class="fc" id="L59">		return dataFormatada;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

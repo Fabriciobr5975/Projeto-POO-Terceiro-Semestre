@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MarcaDaoHibernate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">projetopoo</a> &gt; <a href="index.source.html" class="el_package">br.senac.sp.projetopoo.dao.hibernate</a> &gt; <span class="el_source">MarcaDaoHibernate.java</span></div><h1>MarcaDaoHibernate.java</h1><pre class="source lang-java linenums">package br.senac.sp.projetopoo.dao.hibernate;
+
+import java.util.List;
+
+import br.senac.sp.projetopoo.modelo.Marca;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+
+/**
+ * Classe voltada para a manipulação do CRUD (Create - Read - Update - Delete)
+ * para os objetos do tipo Marca, usando o hibernate juntamente com o JPA para
+ * os métodos do CRUD
+ * 
+ * @author Fabrício de Araújo Santana
+ * @author Marcus Vinícius Pereira Rocha
+ * @author Ruan Lopes Viana
+ */
+public class MarcaDaoHibernate implements InterfaceDao&lt;Marca&gt; {
+	// Atributo para relizar a conexão do Hibernate
+	private EntityManager manager;
+
+	/**
+	 * Método construtor
+	 * 
+	 * @param manager - Recebe um novo EntityManager para fazer o Hibernate
+	 *                funcionar e estabelecer a conexão com o banco de dados
+	 */
+<span class="fc" id="L28">	public MarcaDaoHibernate(EntityManager manager) {</span>
+<span class="fc" id="L29">		this.manager = manager;</span>
+<span class="fc" id="L30">	}</span>
+
+	@Override
+	public int inserir(Marca objeto) throws Exception {
+		/*
+		 * Resultado da transação. Se for igual a 1 os dados foram persistidos com
+		 * sucesso, se o resultado for igual a 0 os dados não foram persistidos.
+		 */
+<span class="fc" id="L38">		int resultado = 0;</span>
+
+		try {
+			// Início da transação
+<span class="fc" id="L42">			this.manager.getTransaction().begin();</span>
+			// Persistindo no banco de dados o objeto que o método recebeu
+<span class="fc" id="L44">			this.manager.persist(objeto);</span>
+			// Realizando a inserção, caso não haja erros
+<span class="fc" id="L46">			this.manager.getTransaction().commit();</span>
+
+			// Mudando o resultado para 1
+<span class="fc" id="L49">			resultado = 1;</span>
+
+<span class="fc" id="L51">		} catch (Exception ex) {</span>
+			// Se a transação não foi concluida, então os dados não foram persistidos
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">			if (this.manager.getTransaction().isActive()) {</span>
+<span class="fc" id="L54">				this.manager.getTransaction().rollback();</span>
+			}
+			// retorna 0;
+<span class="fc" id="L57">			return 0;</span>
+<span class="fc" id="L58">		}</span>
+		// Retorna o resultado da persistencia nos dados
+<span class="fc" id="L60">		return resultado;</span>
+	}
+
+	@Override
+	public int alterar(Marca objeto) throws Exception {
+		/*
+		 * Resultado da transação. Se for igual a 1 os dados foram persistidos com
+		 * sucesso, se o resultado for igual a 0 os dados não foram persistidos.
+		 */
+<span class="fc" id="L69">		int resultado = 0;</span>
+
+		try {
+			// Início da transação
+<span class="fc" id="L73">			this.manager.getTransaction().begin();</span>
+			// Mudando os dados dentro do banco de dados do objeto passado pelo método
+<span class="fc" id="L75">			this.manager.merge(objeto);</span>
+			// Realizando as alterações, caso não haja erros
+<span class="fc" id="L77">			this.manager.getTransaction().commit();</span>
+
+			// Mudando o resultado para 1
+<span class="fc" id="L80">			resultado = 1;</span>
+
+<span class="fc" id="L82">		} catch (Exception ex) {</span>
+			// Se a transação não foi concluida, então os dados não foram persistidos
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">			if (this.manager.getTransaction().isActive()) {</span>
+<span class="fc" id="L85">				this.manager.getTransaction().rollback();</span>
+			}
+			// retorna 0
+<span class="fc" id="L88">			return 0;</span>
+<span class="fc" id="L89">		}</span>
+		// Retorna o resultado da persistencia nos dados
+<span class="fc" id="L91">		return resultado;</span>
+	}
+
+	@Override
+	public Marca buscar(int id) throws Exception {
+		/*
+		 * Buscando um objeto do tipo marca dentro do banco de dados, passando o seu ID
+		 * para realizar essa busca. Depois esse objeto é retornado para a sua
+		 * manipulação dentro do sistema
+		 */
+<span class="fc" id="L101">		return this.manager.find(Marca.class, id);</span>
+	}
+
+	@Override
+	public int excluir(int id) throws Exception {
+		/*
+		 * Resultado da transação. Se for igual a 1 os dados foram persistidos com
+		 * sucesso, se o resultado for igual a 0 os dados não foram persistidos.
+		 */
+<span class="fc" id="L110">		int resultado = 0;</span>
+
+		try {
+			/*
+			 * Criando um novo objeto do tipo marca, e realizando um busca dentro do banco
+			 * de dados, passando um id. Esse objeto tem que ser primeiro encontrado para
+			 * poder ser excluído
+			 */
+<span class="fc" id="L118">			Marca marca = buscar(id);</span>
+
+			// Início da transação
+<span class="fc" id="L121">			this.manager.getTransaction().begin();</span>
+			/*
+			 * Removendo os dados da marca de dentro do banco de dados, passando o objeto
+			 * que contém os dados da busca realizada anteriormente
+			 */
+<span class="fc" id="L126">			this.manager.remove(marca);</span>
+			// Excluindo a marca, caso não haja erros
+<span class="fc" id="L128">			this.manager.getTransaction().commit();</span>
+
+			// Mudando o resultado para 1
+<span class="fc" id="L131">			resultado = 1;</span>
+
+<span class="fc" id="L133">		} catch (Exception ex) {</span>
+			// Se a transação não foi concluida, então os dados não foram persistidos
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">			if (this.manager.getTransaction().isActive()) {</span>
+<span class="fc" id="L136">				this.manager.getTransaction().rollback();</span>
+			}
+			// retorna 0
+<span class="fc" id="L139">			return 0;</span>
+<span class="fc" id="L140">		}</span>
+		// Retorna o resultado da persistencia nos dados
+<span class="fc" id="L142">		return resultado;</span>
+	}
+
+	@Override
+	public List&lt;Marca&gt; listar() throws Exception {
+		/*
+		 * Query para listar todas as marcas salvas dentro do banco de dados usando o
+		 * JPQL (Java Persistence Query Language). Os dados são buscados no banco de
+		 * dados dentro do TypedQuery, onde posteriormente será retornado uma lista de
+		 * todos os elementos do tipo marca salvos.
+		 */
+<span class="fc" id="L153">		TypedQuery&lt;Marca&gt; query = this.manager.createQuery(&quot;select m from Marca m order by m.nome&quot;, Marca.class);</span>
+
+		// Retorna a lista com todos as marcas salvas, ordenadas pelo nome da marca
+<span class="fc" id="L156">		return query.getResultList();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

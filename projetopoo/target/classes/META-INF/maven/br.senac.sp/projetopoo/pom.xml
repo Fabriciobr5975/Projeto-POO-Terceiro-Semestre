@@ -43,7 +43,8 @@
 				</executions>
 				<configuration>
 					<excludes>
-						<exclude>com/seuprojeto/**Mock*</exclude>
+						<exclude>br/senac/sp/projetopoo/modelo/**</exclude>
+						<exclude>br/senac/sp/projetopoo/view/**</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
